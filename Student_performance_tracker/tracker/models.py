@@ -30,7 +30,6 @@ class Enrollment(models.Model):
 class Grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
     enrollment_id = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    grade_value = models.CharField(max_length=2)  # e.g., A, B, C, etc.
     grade_date = models.DateTimeField(auto_now_add=True)
     score = models.FloatField()
 
@@ -51,5 +50,3 @@ class Grade(models.Model):
         student = self.enrollment_id.student_id
         return f"{student.first_name} {student.last_name} - {self.letter_grade}"
 
-    class Meta:
-        unique_together = ('enrollment_id', 'grade_value')  # Ensures one grade per enrollment
