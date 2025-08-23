@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 # Students model
-class Students(models.Model):
+class Student(models.Model):
     student_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class Students(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 # Courses model
-class Courses(models.Model):
+class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=200)
     course_code = models.CharField(max_length=10, unique=True)
@@ -20,16 +20,16 @@ class Courses(models.Model):
     credits = models.IntegerField()
 
 # Enrollments model
-class Enrollments(models.Model):
+class Enrollment(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now_add=True)
 
 # Grades model
-class Grades(models.Model):
+class Grade(models.Model):
     grade_id = models.AutoField(primary_key=True)
-    enrollment_id = models.ForeignKey(Enrollments, on_delete=models.CASCADE)
+    enrollment_id = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     grade_value = models.CharField(max_length=2)  # e.g., A, B, C, etc.
     grade_date = models.DateTimeField(auto_now_add=True)
     score = models.FloatField()
@@ -48,7 +48,8 @@ class Grades(models.Model):
         else:
             return "F"
     def __str__(self):
-        return f"{self.Enrollments.Students.name} - {self.letter_grade}"
+        student = self.enrollment_id.student_id
+        return f"{student.first_name} {student.last_name} - {self.letter_grade}"
 
     class Meta:
         unique_together = ('enrollment_id', 'grade_value')  # Ensures one grade per enrollment
