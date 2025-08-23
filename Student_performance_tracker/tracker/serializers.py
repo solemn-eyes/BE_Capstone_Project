@@ -22,6 +22,7 @@ class EnrollmentsSerializer(serializers.ModelSerializer):
 
 # Serializer for Grades model
 class GradesSerializer(serializers.ModelSerializer):
+    letter_grade = serializers.ReadOnlyField()
     class Meta:
         model = Grades
         fields = '__all__'  # Include all fields in the serialization

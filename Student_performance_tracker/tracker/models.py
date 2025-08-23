@@ -32,6 +32,23 @@ class Grades(models.Model):
     enrollment_id = models.ForeignKey(Enrollments, on_delete=models.CASCADE)
     grade_value = models.CharField(max_length=2)  # e.g., A, B, C, etc.
     grade_date = models.DateTimeField(auto_now_add=True)
+    score = models.FloatField()
+
+    # Incorporating a grading logic
+    @property
+    def letter_grade(self):
+        if self.score >= 70:
+            return "A"
+        elif self.score >= 60:
+            return "B"
+        elif self.score >= 50:
+            return "C"
+        elif self.score >= 40:
+            return "D"
+        else:
+            return "F"
+    def __str__(self):
+        return f"{self.Enrollments.Students.name} - {self.letter_grade}"
 
     class Meta:
         unique_together = ('enrollment_id', 'grade_value')  # Ensures one grade per enrollment
