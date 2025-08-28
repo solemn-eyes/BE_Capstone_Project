@@ -1,7 +1,6 @@
 # I'll be making the serializers for the models in the tracker app.
 from rest_framework import serializers
-from .models import Student, Course, Enrollment, Grade, Profile
-from django.contrib.auth.models import User
+from .models import Student, Course, Enrollment, Grade
 
 # Serializer for Students model
 class StudentsSerializer(serializers.ModelSerializer):
@@ -28,23 +27,3 @@ class GradesSerializer(serializers.ModelSerializer):
         model = Grade
         fields = '__all__'  # Include all fields in the serialization
 
-    
-# Serializer for registering students and admins
-class UserSerializer(serializers.ModelSerializer):
-    role = serializers.CharField(source="profile.role", read_only=True)
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'role']
-
-class RegisterSerializer(serializers.ModelSerializer):
-    role = serializers.ChoiceField(choices=Profile.ROLE_CHOICES, write_only=True)
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'role']
-
-    def create(self, validated_data):
-        role = validated_data.pop('role')
-        user = User.objects.create_user(**validated_data)
-        user.profile.role = role
-        user.profile.save()
-        return user
