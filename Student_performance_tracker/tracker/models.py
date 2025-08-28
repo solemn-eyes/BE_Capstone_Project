@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -50,3 +51,4 @@ class Grade(models.Model):
         student = self.enrollment_id.student_id
         return f"{student.first_name} {student.last_name} - {self.letter_grade}"
 
+# Profile model

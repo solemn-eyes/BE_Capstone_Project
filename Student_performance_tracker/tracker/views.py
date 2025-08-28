@@ -1,10 +1,13 @@
 # Here I'll be describing the views for the tracker app
 from rest_framework import viewsets
 from .models import Student, Course, Enrollment, Grade
-from .serializers import StudentsSerializer, CoursesSerializer, EnrollmentsSerializer, GradesSerializer
+from .serializers import StudentsSerializer, CoursesSerializer, EnrollmentsSerializer, GradesSerializer, RegisterSerializer
 from django.db.models import Avg
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
 
 # ViewSet for Students
 class StudentsViewSet(viewsets.ModelViewSet):
@@ -41,3 +44,14 @@ def course_mean_score(request, course_id):
         "course_id":course_id,
         "mean_score":mean_score['score_avg']
     })
+
+# Registering the endpoints
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+# Protecting the endpoints
+class GradeListView(generics.ListCreateAPIView):
+    queryset = Grade.objects.all()
+    serializer_class = GradesSerializer
+    permission_classes = [IsAuthenticated]
