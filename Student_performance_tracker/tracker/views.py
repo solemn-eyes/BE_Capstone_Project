@@ -5,6 +5,8 @@ from .serializers import StudentsSerializer, CoursesSerializer, EnrollmentsSeria
 from django.db.models import Avg
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 # ViewSet for Students
 class StudentsViewSet(viewsets.ModelViewSet):
@@ -42,3 +44,6 @@ def course_mean_score(request, course_id):
         "mean_score":mean_score['score_avg']
     })
 
+# Setting the courses to be viewed by anyone
+class PublicCourseList(APIView):
+    permission_classes = [AllowAny]
