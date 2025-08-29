@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+# I want to return something when I run the server
+def home(request):
+    return HttpResponse("Welcome to the Student Tracker API. Go to /api/ for endpoints.")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('tracker.urls')),  # Include the URLs from the tracker app
+    path('api/', include('tracker.urls')),  # Includes the URLs from the tracker app
+    path('', home),
 ]
