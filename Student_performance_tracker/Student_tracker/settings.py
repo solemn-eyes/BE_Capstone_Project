@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Student_performance_tracker.urls'
+ROOT_URLCONF = 'Student_tracker.urls'
 
 TEMPLATES = [
     {
@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Student_performance_tracker.wsgi.application'
+WSGI_APPLICATION = 'Student_tracker.wsgi.application'
 
 
 # Database
