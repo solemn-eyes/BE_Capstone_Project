@@ -11,6 +11,9 @@ class Student(models.Model):
     date_of_birth = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 # Courses model
 class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
@@ -19,12 +22,18 @@ class Course(models.Model):
     description = models.TextField(blank=True, null=True)
     credits = models.IntegerField()
 
+    def __str__(self):
+        return self.course_name
+
 # Enrollments model
 class Enrollment(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student} enrolled in {self.course}"
 
 # Grades model
 class Grade(models.Model):
