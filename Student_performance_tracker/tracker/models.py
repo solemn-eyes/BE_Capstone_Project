@@ -28,12 +28,12 @@ class Course(models.Model):
 # Enrollments model
 class Enrollment(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="enrollments")
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.student} enrolled in {self.course}"
+        return f"{self.student_id} enrolled in {self.course_id}"
 
 # Grades model
 class Grade(models.Model):
